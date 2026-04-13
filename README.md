@@ -64,3 +64,56 @@ CodeLink uses a **rule-based translation engine** in `translator.js`. It works i
 This approach covers the most common patterns students encounter. It's not a full compiler — edge cases will produce `// [manual review needed]` comments so you always know what to check.
 
 ---
+
+## 🧪 Tech Stack
+
+HTML5 — structure and layout
+
+CSS3 — custom UI styling, responsive layout, JetBrains Mono typography
+
+Vanilla JavaScript — core logic, UI interactions, keyboard shortcuts
+
+Custom Rule‑Based Engine (translator.js) — deterministic syntax transformations
+
+Browser‑native runtime — no frameworks, no build tools, no dependencies
+
+Fully offline execution — everything runs client‑side
+
+---
+
+## 🛠️ Future Roadmap
+
+**UI/UX Improvements**
+Cleaner, more modern layout with refined spacing and typography
+
+Improved editor experience (syntax highlighting, themes, Monaco Editor integration)
+
+Better error messages and translation hints
+
+Animated transitions for swapping languages and loading states
+
+Mobile‑friendly layout for quick testing on phones
+
+**Language Expansion**
+Add support for Ruby, C#, Go, Swift, and PHP
+
+Expand rule sets for deeper coverage of loops, classes, exceptions, and modules
+
+Add language‑specific idiomatic transformations (e.g., Ruby blocks, C# LINQ, Go error handling)
+
+Modularize translation rules so new languages can be plugged in easily
+
+**Engine Enhancements**
+More robust parsing for complex constructs
+
+A fallback “manual review needed” system for edge cases
+
+Optional AST‑based transformations for higher accuracy
+
+A plugin system for community‑added languages
+
+---
+
+## Demo
+
+Below is a snapshot of CodeLink's workflow and logic
