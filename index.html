@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CodeLink — Code Translator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 8h14M9 2l5 6-5 6M7 2L2 8l5 6" stroke="#080a0c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="brand-name">CodeLink</span>
+    </div>
+    <span class="brand-ver">v1.0</span>
+
+    <div class="topbar-sep"></div>
+
+    <span class="topbar-hint">
+      <span class="kbd">⌘</span><span class="kbd">↵</span>
+      to translate
+    </span>
+  </div>
+
+  <!-- Language bar -->
+  <div class="langbar">
+    <div class="lg">
+      <span class="lg-label">From</span>
+      <div class="sel-wrap">
+        <div class="ldot" id="fromDot"></div>
+        <select id="fromLang" aria-label="Source language">
+          <option value="python">Python</option>
+          <option value="java" selected>Java</option>
+          <option value="cpp">C++</option>
+          <option value="javascript">JavaScript</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="swap-btn" id="swapBtn" title="Swap languages" aria-label="Swap languages">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 16 16">
+        <path d="M3 5h10M10 2l3 3-3 3M13 11H3M6 8l-3 3 3 3"/>
+      </svg>
+    </button>
+
+    <div class="lg">
+      <span class="lg-label">To</span>
+      <div class="sel-wrap">
+        <div class="ldot" id="toDot"></div>
+        <select id="toLang" aria-label="Target language">
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+          <option value="cpp" selected>C++</option>
+          <option value="javascript">JavaScript</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="lbar-sep"></div>
+
+    <button class="translate-btn" id="translateBtn">
+      <div class="spin"></div>
+      <span class="btxt">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 14 14" style="margin-right:5px;vertical-align:-1px">
+          <path d="M1 7h12M8 2l5 5-5 5"/>
+        </svg>
+        Translate
+      </span>
+    </button>
+  </div>
+
+  <!-- Editors -->
+  <div class="editors">
+
+    <!-- Input pane -->
+    <div class="pane">
+      <div class="pane-header">
+        <div class="pmeta">
+          <div class="pldot" id="inDot"></div>
+          <span class="ptitle" id="inTitle">Input · Java</span>
+        </div>
+        <div class="pacts">
+          <button class="pb" id="sampleBtn" title="Load sample code">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 14 14">
+              <path d="M7 1v8M4 6l3 3 3-3M2 11h10"/>
+            </svg>
+          </button>
+          <button class="pb" id="clearBtn" title="Clear input">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" viewBox="0 0 12 12">
+              <path d="M1 1l10 10M11 1L1 11"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="editor-wrap lined" id="inWrap">
+        <div class="lnums" id="lnums"></div>
+        <textarea
+          id="inputCode"
+          spellcheck="false"
+          autocorrect="off"
+          autocapitalize="off"
+          placeholder="Paste your code here, or click the ↓ button to load a sample…"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Output pane -->
+    <div class="pane">
+      <div class="pane-header">
+        <div class="pmeta">
+          <div class="pldot" id="outDot"></div>
+          <span class="ptitle" id="outTitle">Output · C++</span>
+        </div>
+        <div class="pacts">
+          <button class="pb" id="useOutBtn" title="Use output as new input">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 14 14">
+              <path d="M3 5h6a4 4 0 010 8H3M6 2L3 5l3 3"/>
+            </svg>
+          </button>
+          <button class="pb" id="copyBtn" title="Copy output">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" viewBox="0 0 14 14">
+              <rect x="4.5" y="4.5" width="8" height="8" rx="1.5"/>
+              <path d="M2 9.5V2h7.5"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="editor-wrap" id="outWrap">
+        <textarea id="outputCode" readonly spellcheck="false" placeholder=""></textarea>
+        <div class="poverlay" id="overlay">
+          <div class="oicon">
+            <svg width="18" height="18" fill="none" stroke="var(--text3)" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 20 20">
+              <path d="M6 10h8M13 7l3 3-3 3"/>
+            </svg>
+          </div>
+          <span class="olabel">Translation will appear here</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Status bar -->
+  <div class="statusbar">
+    <div class="sind">
+      <div class="sdot" id="sdot"></div>
+      <span class="smsg" id="smsg">Ready — no API key needed</span>
+    </div>
+    <div class="sright">
+      <span class="toast" id="toast">Copied!</span>
+      <span class="scount" id="scount"></span>
+    </div>
+  </div>
+
+</div>
+
+<script src="samples.js"></script>
+<script src="translator.js"></script>
+<script>
+// ── Language config ──────────────────────────────────────────
+const LANG_COLORS = {
+  python:     '#4b8bbe',
+  java:       '#f89820',
+  cpp:        '#4fc3f7',
+  javascript: '#f0c030',
+};
+const LANG_NAMES = {
+  python: 'Python', java: 'Java', cpp: 'C++', javascript: 'JavaScript'
+};
+
+// ── DOM refs ─────────────────────────────────────────────────
+const fromEl    = document.getElementById('fromLang');
+const toEl      = document.getElementById('toLang');
+const inputEl   = document.getElementById('inputCode');
+const outputEl  = document.getElementById('outputCode');
+const tBtn      = document.getElementById('translateBtn');
+const sdot      = document.getElementById('sdot');
+const smsg      = document.getElementById('smsg');
+const scount    = document.getElementById('scount');
+const toast     = document.getElementById('toast');
+const fromDot   = document.getElementById('fromDot');
+const toDot     = document.getElementById('toDot');
+const inDot     = document.getElementById('inDot');
+const outDot    = document.getElementById('outDot');
+const inTitle   = document.getElementById('inTitle');
+const outTitle  = document.getElementById('outTitle');
+const overlay   = document.getElementById('overlay');
+const lnums     = document.getElementById('lnums');
+const inWrap    = document.getElementById('inWrap');
+
+// ── Sync UI labels/colors ─────────────────────────────────────
+function syncUI() {
+  const f = fromEl.value, t = toEl.value;
+  fromDot.style.background = LANG_COLORS[f];
+  toDot.style.background   = LANG_COLORS[t];
+  inDot.style.background   = LANG_COLORS[f];
+  outDot.style.background  = LANG_COLORS[t];
+  inTitle.textContent  = `Input · ${LANG_NAMES[f]}`;
+  outTitle.textContent = `Output · ${LANG_NAMES[t]}`;
+  inputEl.style.caretColor = LANG_COLORS[f];
+}
+
+// ── Status helpers ────────────────────────────────────────────
+function setStatus(state, msg) {
+  sdot.className = 'sdot' + (state ? ' ' + state : '');
+  smsg.textContent = msg;
+  smsg.className = 'smsg' + (state === 'err' ? ' err' : '');
+}
+
+function showOverlay(show) {
+  overlay.classList.toggle('hidden', !show);
+}
+
+// ── Line numbers ──────────────────────────────────────────────
+function rebuildLnums() {
+  const lines = (inputEl.value || '').split('\n');
+  lnums.innerHTML = lines.map((_, i) => `<div>${i + 1}</div>`).join('');
+}
+
+function updateCount() {
+  const n = inputEl.value.length;
+  const l = inputEl.value ? inputEl.value.split('\n').length : 0;
+  scount.textContent = n > 0 ? `${l} lines · ${n} chars` : '';
+}
+
+inputEl.addEventListener('input', () => { rebuildLnums(); updateCount(); });
+inputEl.addEventListener('scroll', () => { lnums.scrollTop = inputEl.scrollTop; });
+
+// Tab key support
+inputEl.addEventListener('keydown', e => {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const s = inputEl.selectionStart, end = inputEl.selectionEnd;
+    inputEl.value = inputEl.value.slice(0, s) + '    ' + inputEl.value.slice(end);
+    inputEl.selectionStart = inputEl.selectionEnd = s + 4;
+    rebuildLnums();
+  }
+});
+
+// ── Language change handlers ──────────────────────────────────
+fromEl.addEventListener('change', () => {
+  if (fromEl.value === toEl.value) {
+    // Pick a different target
+    const others = ['python','java','cpp','javascript'].filter(l => l !== fromEl.value);
+    toEl.value = others[0];
+  }
+  inputEl.value = SAMPLES[fromEl.value] || '';
+  outputEl.value = '';
+  showOverlay(true);
+  syncUI(); rebuildLnums(); updateCount();
+  setStatus('', 'Ready');
+});
+
+toEl.addEventListener('change', () => {
+  if (toEl.value === fromEl.value) {
+    const others = ['python','java','cpp','javascript'].filter(l => l !== toEl.value);
+    fromEl.value = others[0];
+    inputEl.value = SAMPLES[fromEl.value] || '';
+  }
+  outputEl.value = '';
+  showOverlay(true);
+  syncUI();
+  setStatus('', 'Ready');
+});
+
+// ── Swap ──────────────────────────────────────────────────────
+document.getElementById('swapBtn').addEventListener('click', () => {
+  const tmp = fromEl.value;
+  fromEl.value = toEl.value;
+  toEl.value = tmp;
+  const outCode = outputEl.value.trim();
+  inputEl.value = outCode || (SAMPLES[fromEl.value] || '');
+  outputEl.value = '';
+  showOverlay(true);
+  syncUI(); rebuildLnums(); updateCount();
+  setStatus('', 'Languages swapped');
+});
+
+// ── Sample / Clear ────────────────────────────────────────────
+document.getElementById('sampleBtn').addEventListener('click', () => {
+  inputEl.value = SAMPLES[fromEl.value] || '// No sample available yet.';
+  outputEl.value = '';
+  showOverlay(true);
+  rebuildLnums(); updateCount();
+  setStatus('', 'Sample loaded');
+});
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  inputEl.value = '';
+  outputEl.value = '';
+  showOverlay(true);
+  rebuildLnums(); updateCount();
+  setStatus('', 'Cleared');
+});
+
+// ── Use output as input ───────────────────────────────────────
+document.getElementById('useOutBtn').addEventListener('click', () => {
+  if (!outputEl.value.trim()) return;
+  inputEl.value = outputEl.value;
+  outputEl.value = '';
+  const tmp = fromEl.value;
+  fromEl.value = toEl.value;
+  toEl.value = tmp;
+  showOverlay(true);
+  syncUI(); rebuildLnums(); updateCount();
+  setStatus('', 'Output loaded as new input');
+});
+
+// ── Copy ──────────────────────────────────────────────────────
+document.getElementById('copyBtn').addEventListener('click', () => {
+  if (!outputEl.value) return;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(outputEl.value).then(showToast);
+  } else {
+    outputEl.select();
+    document.execCommand('copy');
+    showToast();
+  }
+});
+
+function showToast() {
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// ── Translate ─────────────────────────────────────────────────
+function doTranslate() {
+  const code = inputEl.value.trim();
+  const from = fromEl.value;
+  const to   = toEl.value;
+
+  if (!code) { setStatus('err', 'Nothing to translate — paste some code first'); return; }
+  if (from === to) { setStatus('err', 'Source and target languages must be different'); return; }
+
+  tBtn.classList.add('loading');
+  setStatus('loading', `Translating ${LANG_NAMES[from]} → ${LANG_NAMES[to]}…`);
+
+  // Use setTimeout so the loading state paints before the (synchronous) translation runs
+  setTimeout(() => {
+    try {
+      const result = translate(code, from, to);
+      outputEl.value = result;
+      showOverlay(false);
+      const inLines  = code.split('\n').length;
+      const outLines = result.split('\n').length;
+      setStatus('ok', `Done · ${inLines} → ${outLines} lines · ${LANG_NAMES[from]} → ${LANG_NAMES[to]}`);
+    } catch (e) {
+      setStatus('err', `Translation error: ${e.message}`);
+      showOverlay(true);
+    } finally {
+      tBtn.classList.remove('loading');
+    }
+  }, 30);
+}
+
+tBtn.addEventListener('click', doTranslate);
+
+// Keyboard shortcut: Cmd/Ctrl + Enter
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+    e.preventDefault();
+    doTranslate();
+  }
+});
+
+// ── Init ──────────────────────────────────────────────────────
+inputEl.value = SAMPLES.java;
+syncUI();
+rebuildLnums();
+updateCount();
+</script>
+</body>
+</html>
