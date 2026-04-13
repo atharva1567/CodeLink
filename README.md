@@ -86,31 +86,30 @@ Fully offline execution — everything runs client‑side
 **UI/UX Improvements**
 - Cleaner, more modern layout with refined spacing and typography
 
-Improved editor experience (syntax highlighting, themes, Monaco Editor integration)
+- Improved editor experience (syntax highlighting, themes, Monaco Editor integration)
 
-Better error messages and translation hints
+- Better error messages and translation hints
 
-Animated transitions for swapping languages and loading states
+- Animated transitions for swapping languages and loading states
 
-Mobile‑friendly layout for quick testing on phones
+- Mobile‑friendly layout for quick testing on phones
 
 **Language Expansion**
-Add support for Ruby, C#, Go, Swift, and PHP
+- Add support for Ruby, C#, Go, Swift, and PHP
 
-Expand rule sets for deeper coverage of loops, classes, exceptions, and modules
+- Expand rule sets for deeper coverage of loops, classes, exceptions, and modules
 
-Add language‑specific idiomatic transformations (e.g., Ruby blocks, C# LINQ, Go error handling)
+- Add language‑specific idiomatic transformations (e.g., Ruby blocks, C# LINQ, Go error handling)
 
-Modularize translation rules so new languages can be plugged in easily
+- Modularize translation rules so new languages can be plugged in easily
 
 **Engine Enhancements**
-More robust parsing for complex constructs
+- More robust parsing for complex constructs
 
-A fallback “manual review needed” system for edge cases
+- A fallback “manual review needed” system for edge cases
 
-Optional AST‑based transformations for higher accuracy
-
-A plugin system for community‑added languages
+- Optional AST‑based transformations for higher accuracy
+- A plugin system for community‑added languages
 
 ---
 
