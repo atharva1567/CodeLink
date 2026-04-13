@@ -84,7 +84,7 @@ Fully offline execution — everything runs client‑side
 ## 🛠️ Future Roadmap
 
 **UI/UX Improvements**
-Cleaner, more modern layout with refined spacing and typography
+- Cleaner, more modern layout with refined spacing and typography
 
 Improved editor experience (syntax highlighting, themes, Monaco Editor integration)
 
