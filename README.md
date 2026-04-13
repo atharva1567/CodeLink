@@ -64,7 +64,3 @@ CodeLink uses a **rule-based translation engine** in `translator.js`. It works i
 This approach covers the most common patterns students encounter. It's not a full compiler — edge cases will produce `// [manual review needed]` comments so you always know what to check.
 
 ---
-
-## 🙏 Acknowledgements
-
-Built as a student project. Inspired by the frustration of manually rewriting code when learning a new language.
