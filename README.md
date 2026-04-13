@@ -65,25 +65,6 @@ This approach covers the most common patterns students encounter. It's not a ful
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-Ideas for contributions:
-- Add more translation rules to `translator.js`
-- Improve handling of edge cases
-- Add more code samples to `samples.js`
-- Improve the UI
-- Add support for more languages
-
----
-
-## 📄 License
-
-MIT — free to use, modify, and distribute. See [LICENSE](LICENSE).
-
----
-
 ## 🙏 Acknowledgements
 
 Built as a student project. Inspired by the frustration of manually rewriting code when learning a new language.
