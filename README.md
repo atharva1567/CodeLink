@@ -71,7 +71,7 @@ HTML5 — structure and layout
 
 CSS3 — custom UI styling, responsive layout, JetBrains Mono typography
 
-Vanilla JavaScript — core logic, UI interactions, keyboard shortcuts
+JavaScript — core logic, UI interactions, keyboard shortcuts
 
 Custom Rule‑Based Engine (translator.js) — deterministic syntax transformations
 
