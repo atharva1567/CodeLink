@@ -6,7 +6,7 @@ Translate code between Python, Java, C++, and JavaScript — no API key, no serv
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
 - **4 languages:** Python · Java · C++ · JavaScript
 - **Works 100% offline** — pure HTML, CSS, and JavaScript
